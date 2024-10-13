@@ -4,7 +4,9 @@ import { writeFile } from "fs/promises";
 const START_BLOCK_NUMBER = BigInt(20942536);
 const RPC = "https://eth.llamarpc.com" as const;
 
-const UPPER_RANGE = 8019 - 500; // should be smaller than 2^16
+const MIN_NUMBER = 501;
+const MAX_NUMBER = 8019;
+const UPPER_RANGE = MAX_NUMBER - MIN_NUMBER + 1; // should be smaller than 2^16
 
 async function getNumbers(amount: number, distinct: boolean): Promise<number[]> {
   const numbers: number[] = [];
@@ -31,5 +33,5 @@ async function getNumbers(amount: number, distinct: boolean): Promise<number[]> 
 }
 
 getNumbers(500, true)
-  .then((rngs) => writeFile("random-numbers.txt", rngs.map((n) => n + 501).join("\n")))
+  .then((rngs) => writeFile("random-numbers.txt", rngs.map((n) => n + MIN_NUMBER).join("\n")))
   .catch(console.error);
